@@ -1,7 +1,6 @@
 <script setup></script>
 
 <template>
-  <!-- <h1>telegram-sticker-collection</h1> -->
   <div class="header-1">telegram sticker collection</div>
   <div class="header-2">animated stickers</div>
   <div class="thumbnail-container">
