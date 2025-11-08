@@ -1,7 +1,10 @@
 <script setup></script>
 
 <template>
-  <div class="header-1" v-on:click="this.$router.push(`/`)">telegram sticker collection</div>
+  <div class="header-1" v-on:click="this.$router.push(`/`)">
+    telegram sticker collection
+    <a v-if="this.$route.path !== '/'" class="back-btn">back to list</a>
+  </div>
   <main>
     <RouterView />
   </main>

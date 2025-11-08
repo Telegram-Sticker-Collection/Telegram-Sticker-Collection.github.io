@@ -23,12 +23,24 @@ body {
     padding-bottom: 0.25em;
 }
 
+.header-1 {
+    cursor: pointer;
+    display: flex;
+    gap: 0.25em;
+}
+
 .header-2 {
     font-size: x-large;
     padding-top: 0.25em;
     padding-bottom: 0.25em;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
+    display: flex;
+    gap: 0.25em;
+
+    &.smaller {
+        font-size: large;
+    }
 }
 
 .footnote {
@@ -40,4 +52,23 @@ body {
 
 .footnote a {
     color: #495b37;
+}
+
+.add-btn, .back-btn {
+    color: #f1f1f1;
+    padding: 0.25em;
+    font-size: small;
+    align-self: center;
+    justify-self: center;
+    border-radius: 0.5em;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.add-btn {
+    background-color: #24a1de;
+}
+
+.back-btn {
+    background-color: #797979;
 }

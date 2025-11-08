@@ -40,6 +40,7 @@ import { shuffle } from '@/utils'
   height: 4em;
   object-fit: contain;
 
+  cursor: pointer;
   background-color: wheat;
   border-radius: 1em;
   padding: 0.25em;

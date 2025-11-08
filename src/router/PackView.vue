@@ -1,7 +1,10 @@
 <script setup></script>
 
 <template>
-  <div class="header-2">{{ title }}</div>
+  <div class="header-2">
+    {{ title }}
+    <a class="add-btn" :href="link">add {{ typeName }} to telegram</a>
+  </div>
   <div class="thumbnail-container">
     <template v-for="item in stickers" :key="item.id">
       <tgs-player
@@ -17,7 +20,7 @@
     </template>
   </div>
   <template v-if="premium_stickers.length > 0">
-    <div class="header-2">premium {{ typeName }}</div>
+    <div class="header-2 smaller">premium animation</div>
     <div class="thumbnail-container">
       <template v-for="item in premium_stickers" :key="item.id">
         <tgs-player
@@ -90,7 +93,7 @@ export default {
             if (data.sticker_type === 'regular') {
               this.link = `https://t.me/addstickers/${data.name}`
               this.typeName = 'stickers'
-            } else if (data.sticker_type === 'emoji') {
+            } else if (String(data.sticker_type).includes('emoji')) {
               this.link = `https://t.me/addemoji/${data.name}`
               this.typeName = 'emojis'
             }
@@ -99,9 +102,9 @@ export default {
                 id: sticker.file_unique_id,
                 src: `https://telegram-sticker-collection.github.io/Stickers/files/${this.$route.params.packName}/${sticker.file_unique_id}.${sticker.extension}`,
                 extension: sticker.extension,
-                premium: sticker.premium_animation !== undefined,
+                premium_animation: sticker.premium_animation !== undefined,
               }
-              if (s.premium) {
+              if (s.premium_animation) {
                 this.premium_stickers.push(s)
               } else {
                 this.stickers.push(s)
