@@ -1,3 +1,43 @@
 body {
     background-color: #fffdf6;
+    min-height: calc(100vh - 1em);
+    margin: 0.5em;
+}
+
+#app {
+    min-height: calc(100vh - 1em);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+.header-1,
+.header-2,
+.footnote {
+    background-color: #faf6e9;
+    color: #495b37;
+    font-size: xx-large;
+    font-family:
+        'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana,
+        sans-serif;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+}
+
+.header-2 {
+    font-size: x-large;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.footnote {
+    font-size: small;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    margin-top: 0.5em;
+}
+
+.footnote a {
+    color: #495b37;
 }
