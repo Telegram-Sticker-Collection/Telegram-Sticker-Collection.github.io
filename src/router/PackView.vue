@@ -16,6 +16,23 @@
       <img class="thumbnail" v-if="item.extension === 'webp'" :src="item.src" />
     </template>
   </div>
+  <template v-if="premium_stickers.length > 0">
+    <div class="header-2">premium {{ typeName }}</div>
+    <div class="thumbnail-container">
+      <template v-for="item in premium_stickers" :key="item.id">
+        <tgs-player
+          class="thumbnail"
+          v-if="item.extension === 'tgs'"
+          loop
+          hover
+          mode="normal"
+          :src="item.src"
+        >
+        </tgs-player>
+        <img class="thumbnail" v-if="item.extension === 'webp'" :src="item.src" />
+      </template>
+    </div>
+  </template>
 </template>
 
 <style scoped>
@@ -51,7 +68,9 @@ export default {
       // inLoading: true,
       title: '',
       link: '',
+      typeName: '',
       stickers: [],
+      premium_stickers: [],
     }
   },
   computed: {},
@@ -70,16 +89,23 @@ export default {
             this.title = data.title
             if (data.sticker_type === 'regular') {
               this.link = `https://t.me/addstickers/${data.name}`
+              this.typeName = 'stickers'
             } else if (data.sticker_type === 'emoji') {
               this.link = `https://t.me/addemoji/${data.name}`
+              this.typeName = 'emojis'
             }
             data.stickers.forEach((sticker) => {
-              this.stickers.push({
+              let s = {
                 id: sticker.file_unique_id,
                 src: `https://telegram-sticker-collection.github.io/Stickers/files/${this.$route.params.packName}/${sticker.file_unique_id}.${sticker.extension}`,
                 extension: sticker.extension,
                 premium: sticker.premium_animation !== undefined,
-              })
+              }
+              if (s.premium) {
+                this.premium_stickers.push(s)
+              } else {
+                this.stickers.push(s)
+              }
             })
           })
           .catch()
