@@ -12,7 +12,7 @@ import { shuffle } from '@/utils'
       loop
       hover
       mode="normal"
-      v-on:click="this.$router.push(`/pack/${item}`)"
+      v-on:click="$router.push(`/pack/${item}`)"
       :src="`https://telegram-sticker-collection.github.io/Stickers/files/${item}/thumbnail.tgs`"
     >
     </tgs-player>
@@ -23,7 +23,7 @@ import { shuffle } from '@/utils'
       class="thumbnail"
       v-for="item in packs.webp"
       :key="item"
-      v-on:click="this.$router.push(`/pack/${item}`)"
+      v-on:click="$router.push(`/pack/${item}`)"
       :src="`https://telegram-sticker-collection.github.io/Stickers/files/${item}/thumbnail.webp`"
     />
   </div>
