@@ -78,18 +78,7 @@ export default {
         response
           .json()
           .then((data) => {
-            let packs = {
-              tgs: [],
-              webp: [],
-            }
-            for (const packName in data) {
-              const thumbnailFormat = data[packName]
-              if (thumbnailFormat === 'tgs') {
-                packs.tgs.push(packName)
-              } else if (thumbnailFormat === 'webp') {
-                packs.webp.push(packName)
-              }
-            }
+            let packs = data
             shuffle(packs.tgs)
             shuffle(packs.webp)
             this.packs = packs
