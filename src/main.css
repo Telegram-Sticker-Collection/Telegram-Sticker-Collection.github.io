@@ -24,8 +24,11 @@ body {
 }
 
 .header-1 {
-    cursor: pointer;
     gap: 0.25em;
+
+    a {
+        cursor: pointer;
+    }
 }
 
 .header-2 {

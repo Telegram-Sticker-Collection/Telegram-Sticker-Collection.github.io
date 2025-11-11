@@ -49,7 +49,6 @@
   height: 8em;
   object-fit: contain;
 
-  background-color: wheat;
   border-radius: 1em;
   padding: 0.25em;
   &:nth-child(odd) {

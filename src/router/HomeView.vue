@@ -41,7 +41,6 @@ import { shuffle } from '@/utils'
   object-fit: contain;
 
   cursor: pointer;
-  background-color: wheat;
   border-radius: 1em;
   padding: 0.25em;
   &:nth-child(odd) {

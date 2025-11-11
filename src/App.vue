@@ -1,9 +1,17 @@
 <script setup></script>
 
 <template>
-  <div class="header-1" v-on:click="$router.push(`/`)">
+  <div class="header-1">
     telegram sticker collection
-    <a v-if="$route.path !== '/'" class="back-btn">back to list</a>
+    <template v-if="$route.path !== '/'">
+      <a
+        v-if="$route.path !== '/search' && $route.path.startsWith('/search')"
+        v-on:click="$router.push(`/search`)"
+        class="back-btn"
+        >back to search</a
+      >
+      <a v-else v-on:click="$router.push(`/`)" class="back-btn">back to list</a>
+    </template>
   </div>
   <main>
     <RouterView />
