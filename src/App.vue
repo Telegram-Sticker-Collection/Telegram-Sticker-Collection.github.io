@@ -3,14 +3,17 @@
 <template>
   <div class="header-1">
     telegram sticker collection
-    <template v-if="$route.path !== '/'">
+    <a v-if="$route.path === '/'" v-on:click="$router.push(`/search`)" class="search-btn"
+      >search with emoji</a
+    >
+    <template v-else>
       <a
         v-if="$route.path !== '/search' && $route.path.startsWith('/search')"
         v-on:click="$router.push(`/search`)"
         class="back-btn"
         >back to search</a
       >
-      <a v-else v-on:click="$router.push(`/`)" class="back-btn">back to list</a>
+      <a v-else v-on:click="$router.push(`/`)" class="back-btn">back to home list</a>
     </template>
   </div>
   <main>
