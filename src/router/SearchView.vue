@@ -1,6 +1,7 @@
 
 <script setup>
 import { fetchJson } from '@/utils'
+import * as unicodeEmoji from 'unicode-emoji';
 </script>
 
 <template>
@@ -33,7 +34,6 @@ import { fetchJson } from '@/utils'
 export default {
   data() {
     return {
-      emojiIndex: {},
       emojis: [],
       stickers: {
         tgs: [],
@@ -43,10 +43,16 @@ export default {
   },
   computed: {},
   created() {
+    const indexMap = new Map(unicodeEmoji.getEmojis().map(e => e.emoji).map((v, i) => [v, i]));    
     fetchJson('https://telegram-sticker-collection.github.io/Stickers/emoji_index.json').then((data) => {
       if (!data) return
-      this.emojiIndex = data
-      this.emojis = Object.keys(data).sort()
+      let emojis = Object.keys(data).sort()
+      emojis.sort((a, b) => {
+        const ia = indexMap.has(a) ? indexMap.get(a) : Number.MAX_SAFE_INTEGER;
+        const ib = indexMap.has(b) ? indexMap.get(b) : Number.MAX_SAFE_INTEGER;
+        return ia - ib;
+      });
+      this.emojis = emojis;
     })
   },
   methods: {},

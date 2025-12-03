@@ -3,7 +3,6 @@
 https://telegram-sticker-collection.github.io
 
 ## Website TODO
-- [ ] Improve sorting of emojis in the `/search` page
 - [ ] Add loading
 
 ## Bot TODO
