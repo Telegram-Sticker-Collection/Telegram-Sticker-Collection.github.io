@@ -1,14 +1,38 @@
 <template>
   <div class="thumbnail-container">
-    <component
-      v-for="card in cards"
-      :is="card.extension === 'tgs' ? 'tgs-player' : 'img'"
-      :key="card.key || card.id || card.src"
-      class="thumbnail"
-      :class="[size === 'large' ? 'large' : 'small', { clickable: card.route }]"
-      v-bind="card.extension === 'tgs' ? { loop: true, hover: true, mode: 'normal', src: card.src } : { src: card.src }"
-      @click="onClick(card)"
-    />
+    <template v-for="card in cards" :key="card.key || card.id || card.src">
+      <tgs-player
+        v-if="card.extension === 'tgs'"
+        class="thumbnail"
+        :class="[size === 'large' ? 'large' : 'small', { clickable: card.route }]"
+        loop
+        hover
+        mode="normal"
+        :src="card.src"
+        @click="onClick(card)"
+      ></tgs-player>
+
+      <video
+        v-else-if="card.extension === 'webm'"
+        class="thumbnail"
+        :class="[size === 'large' ? 'large' : 'small', { clickable: card.route }]"
+        :src="card.src"
+        muted
+        loop
+        playsinline
+        @click="onClick(card)"
+        @mouseenter="playCard($event)"
+        @mouseleave="pauseCard($event)"
+      ></video>
+
+      <img
+        v-else
+        class="thumbnail"
+        :class="[size === 'large' ? 'large' : 'small', { clickable: card.route }]"
+        :src="card.src"
+        @click="onClick(card)"
+      />
+    </template>
   </div>
 </template>
 
@@ -23,6 +47,27 @@ export default {
     onClick(card) {
       if (card.route) {
         this.$router.push(card.route)
+      }
+    },
+    playCard(evt) {
+      const el = evt.currentTarget || evt.target
+      if (!el) return
+      try {
+        el.muted = true
+        el.loop = true
+        el.play()
+      } catch {
+        // play may be blocked; ignore
+      }
+    },
+    pauseCard(evt) {
+      const el = evt.currentTarget || evt.target
+      if (!el) return
+      try {
+        el.pause()
+        el.currentTime = 0
+      } catch {
+        // ignore
       }
     },
   },

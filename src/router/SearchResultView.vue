@@ -27,14 +27,17 @@ export default {
       const packName = stickerFile.split('/')[0]
       if (stickerFile.endsWith('.tgs')) {
         tgs.push({ packName, stickerFile })
-      } else if (stickerFile.endsWith('.webp')) {
+      } else if (stickerFile.endsWith('.webp') || stickerFile.endsWith('.webm')) {
         webp.push({ packName, stickerFile })
       }
     })
     shuffle(tgs)
     shuffle(webp)
     this.tgsCards = tgs.map((it) => ({ key: it.stickerFile, src: `https://telegram-sticker-collection.github.io/Stickers/files/${it.stickerFile}`, extension: 'tgs', route: `/pack/${it.packName}` }))
-    this.webpCards = webp.map((it) => ({ key: it.stickerFile, src: `https://telegram-sticker-collection.github.io/Stickers/files/${it.stickerFile}`, extension: 'webp', route: `/pack/${it.packName}` }))
+    this.webpCards = webp.map((it) => {
+      const ext = it.stickerFile.split('.').pop()
+      return { key: it.stickerFile, src: `https://telegram-sticker-collection.github.io/Stickers/files/${it.stickerFile}`, extension: ext, route: `/pack/${it.packName}` }
+    })
   },
 }
 </script>

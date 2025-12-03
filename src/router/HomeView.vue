@@ -2,7 +2,7 @@
   <div class="header-2">animated stickers</div>
   <StickerGrid :cards="tgsCards" size="small" />
   <div class="header-2">static stickers</div>
-  <StickerGrid :cards="webpCards" size="small" />
+  <StickerGrid :cards="staticCards" size="small" />
 </template>
 
 <script>
@@ -13,20 +13,28 @@ export default {
   components: { StickerGrid },
   data() {
     return {
-      packs: { tgs: [], webp: [] },
+      packs: { tgs: [], webp: [], webm: [] },
       tgsCards: [],
       webpCards: [],
+      webmCards: [],
     }
+  },
+  computed: {
+    staticCards() {
+      return [...this.webpCards, ...this.webmCards]
+    },
   },
   async created() {
     const data = await fetchJson('https://telegram-sticker-collection.github.io/Stickers/thumbnails.json')
     if (data) {
       const packs = data
-      shuffle(packs.tgs)
-      shuffle(packs.webp)
+      if (packs.tgs) shuffle(packs.tgs)
+      if (packs.webp) shuffle(packs.webp)
+      if (packs.webm) shuffle(packs.webm)
       this.packs = packs
       this.tgsCards = packs.tgs.map((item) => ({ key: item, src: `https://telegram-sticker-collection.github.io/Stickers/files/${item}/thumbnail.tgs`, extension: 'tgs', route: `/pack/${item}` }))
-      this.webpCards = packs.webp.map((item) => ({ key: item, src: `https://telegram-sticker-collection.github.io/Stickers/files/${item}/thumbnail.webp`, extension: 'webp', route: `/pack/${item}` }))
+      this.webpCards = (packs.webp || []).map((item) => ({ key: item, src: `https://telegram-sticker-collection.github.io/Stickers/files/${item}/thumbnail.webp`, extension: 'webp', route: `/pack/${item}` }))
+      this.webmCards = (packs.webm || []).map((item) => ({ key: item, src: `https://telegram-sticker-collection.github.io/Stickers/files/${item}/thumbnail.webm`, extension: 'webm', route: `/pack/${item}` }))
     }
   },
 }
