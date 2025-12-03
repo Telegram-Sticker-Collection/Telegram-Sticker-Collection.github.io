@@ -11,6 +11,7 @@
   <main>
     <RouterView />
   </main>
+  <LoadingOverlay v-if="loading" @close="manualDismiss = true" />
   <div class="footnote">
     Open source at
     <a href="https://github.com/Telegram-Sticker-Collection/Stickers"
@@ -23,54 +24,69 @@
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.header-1 {
+  font-weight: 700;
+  padding: 16px 20px;
+}
+main {
+  padding: 18px 20px 96px;
+}
+.footnote {
+  padding: 8px 20px 40px;
+  font-size: 13px;
+  color: #444;
+}
+</style>
 
 <script>
+import LoadingOverlay from './components/LoadingOverlay.vue'
+import { subscribeLoading } from './loader'
+
 export default {
+  components: { LoadingOverlay },
   data() {
     return {
-      // inLoading: true,
-      // packs: {
-      //   tgs: [],
-      //   webp: [],
-      // },
+      routerLoading: false,
+      fetchLoading: false,
+      unsubscribeLoader: null,
+      manualDismiss: false,
     }
   },
-  computed: {},
-  created() {
-    // window.addEventListener('load', this.onLoad)
-    // this.$nextTick(() => {
-    //   window.addEventListener('resize', this.onResize)
-    // })
-    // fetch('https://telegram-sticker-collection.github.io/Stickers/thumbnails.json')
-    //   .then((response) => {
-    //     response
-    //       .json()
-    //       .then((data) => {
-    //         let packs = {
-    //           tgs: [],
-    //           webp: [],
-    //         }
-    //         for (const packName in data) {
-    //           const thumbnailFormat = data[packName]
-    //           if (thumbnailFormat === 'tgs') {
-    //             packs.tgs.push(packName)
-    //           } else if (thumbnailFormat === 'webp') {
-    //             packs.webp.push(packName)
-    //           }
-    //         }
-    //         shuffle(packs.tgs)
-    //         shuffle(packs.webp)
-    //         this.packs = packs
-    //       })
-    //       .catch()
-    //   })
-    //   .catch()
+  computed: {
+    loading() {
+      return (this.routerLoading || this.fetchLoading) && !this.manualDismiss
+    },
   },
-  methods: {
-    // onLoad() {
-    //   this.inLoading = false
-    // },
+  created() {
+    const self = this
+    if (this.$router) {
+      this.$router.beforeEach((to, from, next) => {
+        self.routerLoading = true
+        next()
+      })
+      this.$router.afterEach(() => {
+        // small delay to ensure animation is visible for very fast navigations
+        setTimeout(() => (self.routerLoading = false), 80)
+      })
+    }
+
+    // subscribe to fetch-based loading events
+    this.unsubscribeLoader = subscribeLoading((isOn) => {
+      self.fetchLoading = !!isOn
+    })
+    // reset manual dismiss when loading fully stops
+    this.$watch(
+      () => (self.routerLoading || self.fetchLoading),
+      (val) => {
+        if (!val) {
+          self.manualDismiss = false
+        }
+      }
+    )
+  },
+  beforeUnmount() {
+    if (this.unsubscribeLoader) this.unsubscribeLoader()
   },
 }
 </script>

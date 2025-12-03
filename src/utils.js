@@ -12,11 +12,16 @@ export function shuffle(array) {
     }
 }
 
+import { showLoading, hideLoading } from './loader'
+
 export async function fetchJson(url) {
+    showLoading()
     try {
         const response = await fetch(url)
         return await response.json()
     } catch (e) {
         return null
+    } finally {
+        hideLoading()
     }
 }
