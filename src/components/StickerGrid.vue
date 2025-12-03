@@ -4,7 +4,7 @@
       <tgs-player
         v-if="card.extension === 'tgs'"
         class="thumbnail"
-        :class="[size === 'large' ? 'large' : 'small', { clickable: card.route }]"
+        :class="thumbnailClass(card)"
         loop
         hover
         mode="normal"
@@ -15,7 +15,7 @@
       <video
         v-else-if="card.extension === 'webm'"
         class="thumbnail"
-        :class="[size === 'large' ? 'large' : 'small', { clickable: card.route }]"
+        :class="thumbnailClass(card)"
         :src="card.src"
         muted
         loop
@@ -28,7 +28,7 @@
       <img
         v-else
         class="thumbnail"
-        :class="[size === 'large' ? 'large' : 'small', { clickable: card.route }]"
+        :class="thumbnailClass(card)"
         :src="card.src"
         @click="onClick(card)"
       />
@@ -44,6 +44,9 @@ export default {
     size: { type: String, default: 'small' },
   },
   methods: {
+    thumbnailClass(card) {
+      return [this.size === 'large' ? 'large' : 'small', { clickable: card.route }]
+    },
     onClick(card) {
       if (card.route) {
         this.$router.push(card.route)
