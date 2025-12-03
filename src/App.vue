@@ -29,8 +29,6 @@
 export default {
   data() {
     return {
-      // windowHeight: window.innerHeight,
-      // windowWidth: window.innerWidth,
       // inLoading: true,
       // packs: {
       //   tgs: [],
@@ -72,10 +70,6 @@ export default {
   methods: {
     // onLoad() {
     //   this.inLoading = false
-    // },
-    // onResize() {
-    //   this.windowHeight = window.innerHeight
-    //   this.windowWidth = window.innerWidth
     // },
   },
 }

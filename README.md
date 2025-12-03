@@ -4,7 +4,6 @@ https://telegram-sticker-collection.github.io
 
 ## Website TODO
 - [ ] Show `webm` files
-- [ ] Refactor: remove duplicated codes
 - [ ] Improve sorting of emojis in the `/search` page
 - [ ] Add loading
 

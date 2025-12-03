@@ -11,3 +11,12 @@ export function shuffle(array) {
             ;[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
     }
 }
+
+export async function fetchJson(url) {
+    try {
+        const response = await fetch(url)
+        return await response.json()
+    } catch (e) {
+        return null
+    }
+}

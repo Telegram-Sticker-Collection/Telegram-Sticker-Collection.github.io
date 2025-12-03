@@ -5,69 +5,21 @@
     {{ title }}
     <a class="add-btn" :href="link">add {{ typeName }} to telegram</a>
   </div>
-  <div class="thumbnail-container">
-    <template v-for="item in stickers" :key="item.id">
-      <tgs-player
-        class="thumbnail"
-        v-if="item.extension === 'tgs'"
-        loop
-        hover
-        mode="normal"
-        :src="item.src"
-      >
-      </tgs-player>
-      <img class="thumbnail" v-if="item.extension === 'webp'" :src="item.src" />
-    </template>
-  </div>
+  <StickerGrid :cards="stickers" size="large" />
   <template v-if="premium_stickers.length > 0">
     <div class="header-2 smaller">premium animation</div>
-    <div class="thumbnail-container">
-      <template v-for="item in premium_stickers" :key="item.id">
-        <tgs-player
-          class="thumbnail"
-          v-if="item.extension === 'tgs'"
-          loop
-          hover
-          mode="normal"
-          :src="item.src"
-        >
-        </tgs-player>
-        <img class="thumbnail" v-if="item.extension === 'webp'" :src="item.src" />
-      </template>
-    </div>
+    <StickerGrid :cards="premium_stickers" size="large" />
   </template>
 </template>
 
-<style scoped>
-.thumbnail-container {
-  display: flex;
-  flex-flow: row wrap;
-  gap: 0.25em;
-}
-.thumbnail {
-  width: 8em;
-  height: 8em;
-  object-fit: contain;
-
-  border-radius: 1em;
-  padding: 0.25em;
-  &:nth-child(odd) {
-    background-color: #e4e4e4;
-  }
-
-  &:nth-child(even) {
-    background-color: #f1f1f1;
-  }
-}
-</style>
-
 <script>
+import { fetchJson } from '@/utils'
+import StickerGrid from '@/components/StickerGrid.vue'
+
 export default {
+  components: { StickerGrid },
   data() {
     return {
-      // windowHeight: window.innerHeight,
-      // windowWidth: window.innerWidth,
-      // inLoading: true,
       title: '',
       link: '',
       typeName: '',
@@ -75,53 +27,30 @@ export default {
       premium_stickers: [],
     }
   },
-  computed: {},
-  created() {
-    // window.addEventListener('load', this.onLoad)
-    // this.$nextTick(() => {
-    //   window.addEventListener('resize', this.onResize)
-    // })
-    fetch(
-      `https://telegram-sticker-collection.github.io/Stickers/info/${this.$route.params.packName}.json`,
-    )
-      .then((response) => {
-        response
-          .json()
-          .then((data) => {
-            this.title = data.title
-            if (data.sticker_type === 'regular') {
-              this.link = `https://t.me/addstickers/${data.name}`
-              this.typeName = 'stickers'
-            } else if (String(data.sticker_type).includes('emoji')) {
-              this.link = `https://t.me/addemoji/${data.name}`
-              this.typeName = 'emojis'
-            }
-            data.stickers.forEach((sticker) => {
-              let s = {
-                id: sticker.file_unique_id,
-                src: `https://telegram-sticker-collection.github.io/Stickers/files/${this.$route.params.packName}/${sticker.file_unique_id}.${sticker.extension}`,
-                extension: sticker.extension,
-                premium_animation: sticker.premium_animation !== undefined,
-              }
-              if (s.premium_animation) {
-                this.premium_stickers.push(s)
-              } else {
-                this.stickers.push(s)
-              }
-            })
-          })
-          .catch()
-      })
-      .catch()
-  },
-  methods: {
-    // onLoad() {
-    //   this.inLoading = false
-    // },
-    // onResize() {
-    //   this.windowHeight = window.innerHeight
-    //   this.windowWidth = window.innerWidth
-    // },
+  async created() {
+    const data = await fetchJson(`https://telegram-sticker-collection.github.io/Stickers/info/${this.$route.params.packName}.json`)
+    if (!data) return
+    this.title = data.title
+    if (data.sticker_type === 'regular') {
+      this.link = `https://t.me/addstickers/${data.name}`
+      this.typeName = 'stickers'
+    } else if (String(data.sticker_type).includes('emoji')) {
+      this.link = `https://t.me/addemoji/${data.name}`
+      this.typeName = 'emojis'
+    }
+    data.stickers.forEach((sticker) => {
+      let s = {
+        id: sticker.file_unique_id,
+        src: `https://telegram-sticker-collection.github.io/Stickers/files/${this.$route.params.packName}/${sticker.file_unique_id}.${sticker.extension}`,
+        extension: sticker.extension,
+        premium_animation: sticker.premium_animation !== undefined,
+      }
+      if (s.premium_animation) {
+        this.premium_stickers.push(s)
+      } else {
+        this.stickers.push(s)
+      }
+    })
   },
 }
 </script>

@@ -79,3 +79,32 @@ body {
 .back-btn {
     background-color: #797979;
 }
+
+/* Shared thumbnail styles used by multiple views */
+.thumbnail-container {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 0.25em;
+}
+.thumbnail {
+    object-fit: contain;
+    border-radius: 1em;
+    padding: 0.25em;
+}
+.thumbnail.clickable {
+    cursor: pointer;
+}
+.thumbnail.small {
+    width: 4em;
+    height: 4em;
+}
+.thumbnail.large {
+    width: 8em;
+    height: 8em;
+}
+.thumbnail:nth-child(odd) {
+    background-color: #e4e4e4;
+}
+.thumbnail:nth-child(even) {
+    background-color: #f1f1f1;
+}

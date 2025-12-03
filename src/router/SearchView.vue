@@ -1,5 +1,6 @@
+
 <script setup>
-// import { shuffle } from '@/utils'
+import { fetchJson } from '@/utils'
 </script>
 
 <template>
@@ -42,17 +43,11 @@ export default {
   },
   computed: {},
   created() {
-    fetch('https://telegram-sticker-collection.github.io/Stickers/emoji_index.json')
-      .then((response) => {
-        response
-          .json()
-          .then((data) => {
-            this.emojiIndex = data
-            this.emojis = Object.keys(data).sort()
-          })
-          .catch()
-      })
-      .catch()
+    fetchJson('https://telegram-sticker-collection.github.io/Stickers/emoji_index.json').then((data) => {
+      if (!data) return
+      this.emojiIndex = data
+      this.emojis = Object.keys(data).sort()
+    })
   },
   methods: {},
 }
