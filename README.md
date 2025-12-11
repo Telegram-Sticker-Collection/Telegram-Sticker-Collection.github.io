@@ -3,6 +3,8 @@
 https://telegram-sticker-collection.github.io
 
 ## Website TODO
+- [ ] Support dark mode
+- [ ] Support [MiniApp](https://core.telegram.org/bots/webapps)
 - [ ] Add loading
 
 ## Bot TODO
