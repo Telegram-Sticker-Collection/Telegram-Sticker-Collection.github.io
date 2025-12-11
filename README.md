@@ -3,8 +3,9 @@
 https://telegram-sticker-collection.github.io
 
 ## Website TODO
+- [ ] Fix: Categorizing `webm` under animated stickers
 - [ ] Support dark mode
-- [ ] Support [MiniApp](https://core.telegram.org/bots/webapps)
+- [ ] Support [Mini App](https://core.telegram.org/bots/webapps)
 - [ ] Add loading
 
 ## Bot TODO
